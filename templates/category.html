@@ -7,11 +7,11 @@
 		{% include 'categories.html' %}
 	</div>
 	<div class="col-md-8">
-		<h2>Latest items:</h2>
+		<h2>{{ category.name }} Items</h2>
 		{%if 'username' in session %}
 			<a href="{{url_for('newItem')}}">Add item</a>
 		{% endif %}
-		{% for item in latestItems %}	
+		{% for item in items %}	
 		<a href="{{url_for('showItem', item_id = item.id)}}">
 			<div class="row">
 				<div class="col-md-1"></div>
