@@ -252,6 +252,18 @@ def showCatalog():
     latestItems = session.query(Item).order_by(Item.id.desc()).limit(10).all()
     return render_template('item-catalog.html', categories=categories, latestItems = latestItems)
 
+@app.route('/catalog.json')
+def showCatalogAsJSON():
+    categories = []
+    for category in getAllCategories():
+        items = session.query(Item).filter_by(category_id=category.id).all()
+        serializedItems = [i.serialize for i in items]
+        serializedCategory = category.serialize
+        serializedCategory['items']=serializedItems
+        categories.append(serializedCategory)
+    return jsonify(categories=categories)
+    
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
