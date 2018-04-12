@@ -1,0 +1,7 @@
+{% extends "main.html" %} 
+{% block content %}
+{% include "header.html" %}
+<h1>Welcome {{ session['user_id'] }}<h1>
+<img src="{{ session['picture'] }}" style="width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;">
+<p>Login Successful! Redirecting...</p>
+{% endblock %}

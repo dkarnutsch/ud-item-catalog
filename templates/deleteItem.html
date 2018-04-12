@@ -1,14 +1,14 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-	<div class="row divider green">
-		<div class="col-md-12"></div>
+<div class="row divider green">
+	<div class="col-md-12"></div>
+</div>
+<div class="row banner menu">
+	<div class="col-md-11 col-md-offset-1 padding-none">
+		<h1>Delete {{item.title}}?</h1>
 	</div>
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>Delete {{item.title}}?</h1>
-		</div>
-	</div>
+</div>
 
 <h2>Are you sure you want to delete {{item.title}}?</h2>
 
@@ -20,5 +20,4 @@
 		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
 	</a>
 </form>
-
 {% endblock %}

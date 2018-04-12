@@ -1,12 +1,12 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from sqlalchemy import create_engine
 
 Base = declarative_base()
 
 
 class User(Base):
+    """ Stores the authenticated users """
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
@@ -16,6 +16,7 @@ class User(Base):
 
 
 class Category(Base):
+    """ Stores the item category """
     __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True)
@@ -31,6 +32,7 @@ class Category(Base):
 
 
 class Item(Base):
+    """ Stores the item, its title, description and the user owning it """
     __tablename__ = 'item'
 
     id = Column(Integer, primary_key=True)
