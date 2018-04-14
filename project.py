@@ -4,6 +4,7 @@ import string
 
 import httplib2
 import requests
+from functools import wraps
 from flask import session as login_session
 from flask import (Flask, flash, jsonify, make_response, redirect,
                    render_template, request, url_for)
@@ -25,6 +26,14 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in login_session:
+            return redirect(url_for('showLogin', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def createUser(login_session):
@@ -196,10 +205,9 @@ def gdisconnect():
 
 
 @app.route('/item/new/', methods=['GET', 'POST'])
+@login_required
 def newItem():
     """ Displays page for creating a new item """
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
         newItem = Item(title=request.form['title'],
                        description=request.form['description'],
@@ -223,11 +231,10 @@ def showItem(item_id):
 
 
 @app.route('/item/<int:item_id>/edit/', methods=['GET', 'POST'])
+@login_required
 def editItem(item_id):
     """ Displays page for updating an item """
     editedItem = session.query(Item).filter_by(id=item_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     if editedItem.user_id != login_session['user_id']:
         return """<script>function myFunction() {alert('You are not authorized
                   to edit this item. Please create your own item in order
@@ -245,11 +252,10 @@ def editItem(item_id):
 
 
 @app.route('/item/<int:item_id>/delete/', methods=['GET', 'POST'])
+@login_required
 def deleteItem(item_id):
     """Displays page for deleting an item """
     itemToDelete = session.query(Item).filter_by(id=item_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     if itemToDelete.user_id != login_session['user_id']:
         return """<script>function myFunction() {alert('You are not authorized
                   to delete this item. Please create your own item in order
