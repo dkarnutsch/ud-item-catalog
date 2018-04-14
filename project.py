@@ -1,10 +1,10 @@
 import json
 import random
 import string
+from functools import wraps
 
 import httplib2
 import requests
-from functools import wraps
 from flask import session as login_session
 from flask import (Flask, flash, jsonify, make_response, redirect,
                    render_template, request, url_for)
@@ -26,6 +26,7 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
 
 def login_required(f):
     @wraps(f)
